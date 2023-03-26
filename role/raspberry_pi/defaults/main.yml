@@ -1,0 +1,44 @@
+---
+hostname_prefix: pi_
+
+locale: 'fr_FR.UTF-8'
+timezone: 'Europe/Paris'
+
+# Addiontional packages to install
+packages:
+- git
+- tmux
+- vim
+- nmon
+- neofetch
+
+# RAM size for log2ram folder in megabytes
+log2ram_size: '128'
+
+# Changes SSH port
+# ssh_port : 28
+
+# GPU memory split in megabytes
+gpu_mem: '16' # 16, 64, 128 or 256
+
+# Disable HDMI to preserve power
+disable_hdmi: true
+
+# Disable IPv6 on specified interfaces
+disable_ipv6_interfaces:
+  - wlan0
+  - eth0
+
+# Samba configuration
+samba_packages:
+  - samba-common
+  - samba
+  - samba-client
+
+samba_services:
+  - smbd
+#  - nmbd
+
+#samba_netbios_name: monserveur
+samba_configuration_dir: /etc/samba
+samba_configuration: "{{ samba_configuration_dir }}/smb.conf"

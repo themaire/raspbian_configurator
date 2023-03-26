@@ -1,0 +1,107 @@
+# - name: Check if log2ram is already installed
+#   stat:
+#     path: /etc/systemd/system/log2ram.service
+#   register: log2ram_installed
+
+# - name: 'Skip if already installed' NE FONCTIONNE PAS
+#   fail:
+#   when: log2ram_installed.stat.exists
+
+- name: Download log2ram services from master branch
+  get_url:
+    url: "https://github.com/azlux/log2ram/archive/master.tar.gz"
+    dest: "/tmp/log2ram.tar.gz"
+    mode: 0755
+
+- name: Extract archive
+  unarchive:
+    src: /tmp/log2ram.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+- name: Create /usr/local/bin/ directory if it does not exist
+  ansible.builtin.file:
+    path: /usr/local/bin/
+    state: directory
+    mode: '0755'
+
+- name: log2ram.service
+  copy:
+    src: /tmp/log2ram-master/log2ram.service
+    dest: /etc/systemd/system/log2ram.service
+    mode: 0644
+    remote_src: yes
+
+- name: log2ram-daily.service
+  copy:
+    src: /tmp/log2ram-master/log2ram-daily.service
+    dest: /etc/systemd/system/log2ram-daily.service
+    mode: 0644
+    remote_src: yes
+
+- name: log2ram-daily.timer
+  copy:
+    src: /tmp/log2ram-master/log2ram-daily.timer
+    dest: /etc/systemd/system/log2ram-daily.timer
+    mode: 0644
+    remote_src: yes
+
+- name: log2ram.logrotate
+  copy:
+    src: /tmp/log2ram-master/log2ram.logrotate
+    dest: /etc/logrotate.d/log2ram
+    mode: 0644
+    remote_src: yes
+
+- name: log2ram binary
+  copy:
+    src: /tmp/log2ram-master/log2ram
+    dest: /usr/local/bin/log2ram
+    mode: 0755
+    remote_src: yes
+
+- name: log2ram uninstall.sh
+  copy:
+    src: /tmp/log2ram-master/uninstall.sh
+    dest: /usr/local/bin/uninstall.sh_log2ram.sh
+    mode: 0755
+    remote_src: yes
+
+- name: log2ram config
+  copy:
+    src: /tmp/log2ram-master/log2ram.conf
+    dest: /etc/log2ram.conf
+    mode: 0644
+    remote_src: yes
+
+- name: Change RAM size of log folder to {{ log2ram_size }}MB
+  lineinfile:
+    path: /etc/log2ram.conf
+    regexp: '^SIZE='
+    line: 'SIZE={{ log2ram_size }}M'
+
+- name: log2ram.service
+  copy:
+    src: /tmp/log2ram-master/uninstall.sh
+    dest: /usr/local/bin/uninstall-log2ram.sh
+    mode: 0644
+    remote_src: yes
+
+- name: Ensure log2ram is running on startup
+  systemd:
+    name: log2ram
+    daemon_reload: yes
+    state: started
+    enabled: true
+
+- name: log2ram cron logrotate
+  copy:
+    src: /tmp/log2ram-master/log2ram.logrotate
+    dest: /etc/logrotate.d/log2ram
+    mode: 0644
+    remote_src: yes
+
+- name: Remove a previous log2ram version
+  file:
+    path: /var/log.hdd
+    state: absent

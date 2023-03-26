@@ -1,0 +1,39 @@
+# File: roles/raspberry_pi/tasks/samba.yml
+---
+
+- name: Install Samba packages
+  package:
+    name: "{{ samba_packages }}"
+    state: present
+  tags: samba
+
+- name: Samba configuration
+  template:
+    src: smb.conf.j2
+    dest: "{{ samba_configuration }}"
+    validate: 'testparm -s %s'
+  notify:
+    - Restart Samba services
+  tags: samba
+
+- name: Start Samba service(s)
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items: "{{ samba_services }}"
+  tags: samba
+
+- name: Create Samba users if they don't exist yet
+  shell: >
+    set -o nounset -o pipefail -o errexit &&
+    (pdbedit --user={{ item.name }} 2>&1 > /dev/null) \
+    || (echo {{ item.password }}; echo {{ item.password }}) \
+    | smbpasswd -s -a {{ item.name }}
+  args:
+    executable: /bin/bash
+  with_items: "{{ users_admin }}"
+  no_log: true
+  register: create_user_output
+  changed_when: "'Added user' in create_user_output.stdout"
+  tags: samba

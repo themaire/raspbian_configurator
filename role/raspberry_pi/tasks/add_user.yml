@@ -1,0 +1,33 @@
+- name: create group admin
+  group:
+    name: "admin"
+    state: present
+
+- name: create admin user accounts
+  user:
+    name: "{{ item.name }}"
+    password: "{{ item.password | password_hash('sha512')}}"
+    groups: "admin"
+  with_items:
+  - "{{ users_admin }}"
+  no_log: true
+
+- name: add authorized keys
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', 'files/'+ item.name + '.key.pub') }}"
+  with_items: 
+  - "{{ users_admin }}"
+  - "{{ users_no_admin }}"
+
+- name: "Allow admin users to sudo without a password"
+  lineinfile:
+    dest: "/etc/sudoers"
+    state: "present"
+    regexp: "^%sudo"
+    line: "%admin ALL=(ALL) NOPASSWD: ALL"
+
+- name: remove pi user
+  user:
+    name: "pi"
+    state: absent

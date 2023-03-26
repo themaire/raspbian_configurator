@@ -1,0 +1,10 @@
+---
+- name: Copy .bash_aliases
+  copy:
+    src: bash_aliases
+    dest: /home/nico/.bash_aliases
+
+- name: Copy .bashrc
+  copy:
+    src: bashrc
+    dest: /home/nico/.bashrc
