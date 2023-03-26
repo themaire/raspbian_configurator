@@ -1,9 +1,14 @@
 # raspberry pi ansible role
 
-!! Vault's file password in group_vars/new folder : foobar ,
+Notice:
+Vault's file password in group_vars/new folder : foobar ,
 where you need to edit to adapt new users names and passwords.
 ansible-vault rekey ./group_vars/new/vault.yml
 ansible-vault edit ./group_vars/new/vault.yml
+
+Dont forget to replace the file ./role/raspberry_pi/files/foobar.key.pub
+by "your futur username".key.pub like boby.key.pub
+To generate it : ssh-keygen -f ~/.ssh/boby.key
 
 Supports:
 - Update and Upgrade each node.
