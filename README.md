@@ -106,3 +106,5 @@ samba_configuration: "{{ samba_configuration_dir }}/smb.conf"
 Inspired from : 
 https://galaxy.ansible.com/zjael/raspberry_pi
 ( https://github.com/zjael/raspberry_pi )
+
+--happy ester!
