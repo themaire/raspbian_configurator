@@ -74,6 +74,8 @@ nano ./list_piansible.yml
 
 ## Role Variables
 
+File locates in : ./roles/raspberry_pi/defaults/main.yml
+
 ```yaml
 ---
 # All uncommented lines are default settings
