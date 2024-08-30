@@ -12,6 +12,20 @@
     - "{{ users_admin }}"
   no_log: true
 
+# - name: create user group
+#   group:
+#     name: "admin"
+#     state: present
+
+# - name: create NON admin user accounts
+#   user:
+#     name: "{{ item.name }}"
+#     password: "{{ item.password | password_hash('sha512')}}"
+#     groups: "admin"
+#   with_items:
+#     - "{{ users_no_admin }}"
+#   no_log: true
+
 - name: add authorized keys
   authorized_key:
     user: "{{ item.name }}"
@@ -27,7 +41,7 @@
     regexp: "^%sudo"
     line: "%admin ALL=(ALL) NOPASSWD: ALL"
 
-- name: remove pi user
-  user:
-    name: "pi"
-    state: absent
+# - name: remove pi user
+#   user:
+#     name: "pi"
+#     state: absent
