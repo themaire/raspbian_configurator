@@ -9,7 +9,7 @@
     password: "{{ item.password | password_hash('sha512')}}"
     groups: "admin"
   with_items:
-  - "{{ users_admin }}"
+    - "{{ users_admin }}"
   no_log: true
 
 - name: add authorized keys
@@ -17,7 +17,7 @@
     user: "{{ item.name }}"
     key: "{{ lookup('file', 'files/'+ item.name + '.key.pub') }}"
   with_items: 
-  - "{{ users_admin }}"
+    - "{{ users_admin }}"
   # - "{{ users_no_admin }}"
 
 - name: "Allow admin users to sudo without a password"
