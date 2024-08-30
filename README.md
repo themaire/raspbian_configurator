@@ -67,7 +67,7 @@ nano ./list_piansible.yml
 
 ### By default: #
 - Updates and upgrades each node.
-- Installs log2ram, with 40mb RAM size for log folder.
+- Installs log2ram, with 128mb RAM size for log folder.
 - Sets gpu_mem to 16mb.
 - Disables HDMI.
 - Disables IPv6 on wlan0 and eth0
