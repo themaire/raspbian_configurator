@@ -35,6 +35,10 @@ I recommand you to declare first one admin user and no normal users.
 ## 4 -- Adapt the iventory file #
 
 <p>Edit the list_piansible.yml inventory file. A couple of boards are presents in the exemple.
+
+```{r, engine='bash', count_lines}
+nano ./list_piansible.yml
+```
 </p>
 
 ## 5 -- Run the playbook #
