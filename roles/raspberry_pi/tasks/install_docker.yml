@@ -1,0 +1,44 @@
+---
+- name: Installer Docker sur Raspberry Pi
+  hosts: raspberrypi
+  become: yes
+
+  tasks:
+    - name: Mettre à jour les listes de paquets
+      apt:
+        update_cache: yes
+
+    - name: Installer les paquets nécessaires
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: Ajouter la clé GPG de Docker
+      apt_key:
+        url: https://download.docker.com/linux/raspberrypi/gpg
+        state: present
+
+    - name: Ajouter le dépôt Docker
+      apt_repository:
+        repo: deb https://download.docker.com/linux/raspberrypi $(lsb_release -cs) stable
+        state: present
+
+    - name: Remettre à jour les listes de paquets
+      apt:
+        update_cache: yes
+
+    - name: Installer Docker Engine
+      apt:
+        name: docker-ce docker-ce-cli containerd.io
+        state: present
+
+    - name: Ajouter l'utilisateur à docker
+      user:
+        name: "{{ item.name }}"
+        groups: docker
+      with_items:
+        - "{{ users_admin }}"

@@ -2,7 +2,7 @@
 - name: Copy .bash_aliases
   copy:
     src: bash_aliases
-    dest: /home/nico/.bash_aliases
+    dest: /home/"{{ item.name }}"/.bash_aliases
   with_items:
     - "{{ users_admin }}"
     #- "{{ users_no_admin }}"
@@ -10,7 +10,7 @@
 - name: Copy .bashrc
   copy:
     src: bashrc
-    dest: /home/nico/.bashrc
+    dest: /home/"{{ item.name }}"/.bashrc
   with_items:
     - "{{ users_admin }}"
     #- "{{ users_no_admin }}"

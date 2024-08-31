@@ -45,6 +45,9 @@
 - include_tasks: samba.yml
   when: samba_packages is defined
 
+- include_tasks: install_docker.yml
+  when: install_docker is defined
+
 ###
 
 

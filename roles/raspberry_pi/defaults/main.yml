@@ -39,6 +39,8 @@ samba_services:
   - smbd
 #  - nmbd
 
+# install_docker: true
+
 #samba_netbios_name: monserveur
 samba_configuration_dir: /etc/samba
 samba_configuration: "{{ samba_configuration_dir }}/smb.conf"
