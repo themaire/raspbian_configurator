@@ -1,5 +1,11 @@
 # raspberry pi ansible role
 
+<p>
+  New : Possibility to install Docker and a exemple of how to deploy Wordpress in a container (docker-compose) IN A SAME TIME. Uncomment the lines 43 & 44 in the file :
+
+  ./roles/raspberry_pi/defaults/main.yml
+</p>
+
 # STEPS for good results #
 
 ## 1 -- Flashing SD card with Raspberry Pi Imager #
