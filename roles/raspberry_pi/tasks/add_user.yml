@@ -14,14 +14,14 @@
 
 # - name: create user group
 #   group:
-#     name: "admin"
+#     name: "users"
 #     state: present
 
 # - name: create NON admin user accounts
 #   user:
 #     name: "{{ item.name }}"
 #     password: "{{ item.password | password_hash('sha512')}}"
-#     groups: "admin"
+#     groups: "users"
 #   with_items:
 #     - "{{ users_no_admin }}"
 #   no_log: true

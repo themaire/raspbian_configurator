@@ -3,8 +3,14 @@
   copy:
     src: bash_aliases
     dest: /home/nico/.bash_aliases
+  with_items:
+    - "{{ users_admin }}"
+    #- "{{ users_no_admin }}"
 
 - name: Copy .bashrc
   copy:
     src: bashrc
     dest: /home/nico/.bashrc
+  with_items:
+    - "{{ users_admin }}"
+    #- "{{ users_no_admin }}"
