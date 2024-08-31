@@ -1,0 +1,15 @@
+- name: Créer les répertoire de wordpress 
+  file:
+    path: /var/wp
+    state: directory
+    mode: '0750'
+    group: admin
+
+- name: Copier le fichier docker-compose.yml
+  copy:
+    src: wordpress_docker-compose.yml
+    dest: /tmp/
+
+
+- name: Exécuter docker-compose up -d de Wordpress
+  command: docker-compose -f /tmp/wordpress_docker-compose.yml up -d

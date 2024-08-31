@@ -48,6 +48,9 @@
 - include_tasks: install_docker.yml
   when: install_docker is defined
 
+- include_tasks: deploy_wordpress.yml
+  when: deploy_wordpress is defined
+
 ###
 
 

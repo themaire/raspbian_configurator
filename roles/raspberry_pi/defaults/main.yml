@@ -1,4 +1,5 @@
 ---
+# Names will be : pi_0, pi_1 ...
 hostname_prefix: pi_
 
 locale: 'fr_FR.UTF-8'
@@ -40,6 +41,8 @@ samba_services:
 #  - nmbd
 
 # install_docker: true
+# deploy_wordpress: true
+
 
 #samba_netbios_name: monserveur
 samba_configuration_dir: /etc/samba
