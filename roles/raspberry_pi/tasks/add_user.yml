@@ -1,30 +1,18 @@
-- name: create group admin
-  group:
-    name: "admin"
-    state: present
-
 - name: create admin user accounts
   user:
     name: "{{ item.name }}"
     password: "{{ item.password | password_hash('sha512')}}"
-    groups: "admin"
   with_items:
     - "{{ users_admin }}"
   no_log: true
 
-# - name: create user group
-#   group:
-#     name: "users"
-#     state: present
-
-# - name: create NON admin user accounts
-#   user:
-#     name: "{{ item.name }}"
-#     password: "{{ item.password | password_hash('sha512')}}"
-#     groups: "users"
-#   with_items:
-#     - "{{ users_no_admin }}"
-#   no_log: true
+- name: create NON admin user accounts
+  user:
+    name: "{{ item.name }}"
+    password: "{{ item.password | password_hash('sha512')}}"
+  with_items:
+    - "{{ users_no_admin }}"
+  no_log: true
 
 - name: add authorized keys
   authorized_key:
@@ -32,7 +20,7 @@
     key: "{{ lookup('file', 'files/'+ item.name + '.key.pub') }}"
   with_items: 
     - "{{ users_admin }}"
-  # - "{{ users_no_admin }}"
+    - "{{ users_no_admin }}"
 
 - name: "Allow admin users to sudo without a password"
   lineinfile:
@@ -41,7 +29,67 @@
     regexp: "^%sudo"
     line: "%admin ALL=(ALL) NOPASSWD: ALL"
 
+# We can't remove pi user because wee are using it through Ansible
 # - name: remove pi user
 #   user:
 #     name: "pi"
-#     state: absent
+
+- name: Créer le groupe download
+  group:
+    name: download
+    state: present
+
+- name: Ajouter les admins à tous ces groupes
+  user:
+    name: "{{ item.name }}"
+    groups:
+          - adm
+          - dialout
+          - cdrom
+          - sudo
+          - audio
+          - video
+          - plugdev
+          - games
+          - users
+          - input
+          - render
+          - netdev
+          - spi
+          - i2c
+          - gpio
+          - download
+    append: yes
+  with_items:
+    - "{{ users_admin }}"
+
+- name: Ajouter les NON admins à tous ces groupes
+  user:
+    name: "{{ item.name }}"
+    groups:
+          # - adm
+          - dialout
+          # - cdrom
+          # - sudo
+          - audio
+          - video
+          - plugdev
+          - games
+          - users
+          - input
+          - render
+          - netdev
+          - spi
+          - i2c
+          - gpio
+          # - admin
+          # - download
+    append: yes
+  with_items:
+    - "{{ users_no_admin }}"
+
+- name: Ajouter pi au groupe download
+  user:
+    name: pi
+    groups: download
+    append: yes
