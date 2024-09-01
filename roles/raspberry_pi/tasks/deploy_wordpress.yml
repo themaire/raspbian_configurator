@@ -3,7 +3,8 @@
     path: /var/wp
     state: directory
     mode: '0750'
-    group: admin
+    owner: pi
+    group: users
 
 - name: Copier le fichier docker-compose.yml
   copy:
