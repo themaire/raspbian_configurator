@@ -1,2 +1,13 @@
 .DS_Store
 *.swp
+
+group_vars/new/vault_backup/
+roles/raspberry_pi/files/audrey.key.pub
+roles/raspberry_pi/files/sabnzbd.ini
+roles/raspberry_pi/files/mnt/demo.mount
+roles/raspberry_pi/files/mnt/mnt-1to.mount
+roles/raspberry_pi/files/mnt/mnt-casaos-media.mount
+roles/raspberry_pi/files/mnt/mnt-create_mount_points.sh
+roles/raspberry_pi/files/mnt/mnt-disque_320go.mount
+.gitignore
+roles/raspberry_pi/files/mnt/mnt-disque_2500.mount
